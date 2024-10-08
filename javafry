@@ -1,0 +1,30 @@
+const express = require('express');
+const app = express();
+const axios = require('axios');
+
+app.use(express.json());
+
+app.post('/generate-likes-views', (req, res) => {
+  const link = req.body.link;
+  // Use social media API to generate likes and views
+  axios.post('https://api.socialmedia.com/likes-views', {
+    link: link,
+    likes: 100,
+    views: 100
+  }, {
+    headers: {
+      // Include your API key here
+      'Authorization': 'Bearer YOUR_API_KEY'
+    }
+  })
+  .then(response => {
+    res.json({ message: 'Likes and views generated successfully' });
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Error generating likes and views' });
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
